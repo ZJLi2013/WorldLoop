@@ -8,11 +8,12 @@ success classifier, beat SFT on 144 held-out simulator inits in 5 / 5 training s
 |---|---|
 | The four RLinf trees, RoboTwin and BWM code, and every script come out byte-identical to the w32 node | `setup/materialize.sh` on a scratch root, then a file-by-file diff against the live node layout (2026-10-15); patched RLinf trees also match by `git write-tree` |
 | Model and checkpoint hashes | `assets.sha256` was taken on the node; `setup/verify.sh` checks a new machine against it |
+| The pipeline runs end to end from this directory | 2026-10-15 on the original collection node, in a fresh root: `materialize.sh`, `verify.sh`, SFT baseline, `w32_driver.sh` pre / smoke / full for SEED=1, all exit 0 (venv and model files linked to the node's copies) |
 
 | Not verified | Why it matters |
 |---|---|
 | `setup/env.sh` and `setup/fetch_assets.py` on a fresh machine | Written from the node's freeze and the documented manual steps; never executed end to end |
-| Rerunning w32 from these trees | The original node went offline with the five w32 policies. A port of the same recipe onto upstream RLinf APIs got −9.5 pp [−14.8, −4.4] for one seed on another node; the cause was not isolated |
+| The w32 gain on another node | That one SEED=1 run gave +0.7 pp [−1.4, +3.0] against its own SFT, below w32's five-seed range [+3.9, +14.4]; node, training randomness or both are not separated |
 
 ## Pipeline
 
