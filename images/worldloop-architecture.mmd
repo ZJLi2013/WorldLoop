@@ -1,0 +1,35 @@
+---
+title: WorldLoop — two loops, two gates
+config:
+  theme: base
+  themeVariables:
+    fontSize: 17px
+    fontFamily: Inter, Segoe UI, sans-serif
+    primaryColor: "#EDF1FF"
+    primaryBorderColor: "#4760FF"
+    lineColor: "#64748B"
+---
+flowchart TB
+    subgraph inner["Policy loop · RLinf"]
+        direction LR
+        P["π0.5 policy"] -->|action chunk| W["WM env<br/>BWM · failure-FT"]
+        W -->|frames| R["frozen reward<br/>T5 · sim-label trained"]
+        R -->|0/1 per episode| U["PPO<br/>corrected recipe"]
+        U -->|update| P
+    end
+    GP{"Policy gate<br/>≥5 seeds sim eval<br/>replay mismatch ≈ SFT"}
+    GW{"WM gate<br/>fake success ↓<br/>recall ≥ 0.8"}
+    subgraph outer["WM loop · WMForge / WMDiverge"]
+        direction LR
+        S["simulator rollouts<br/>of current policies"] -->|success + failure| D["failure /<br/>counterfactual data"]
+        D --> F["WM fine-tune"]
+    end
+    inner -->|checkpoint| GP
+    GP -.->|exploited WM error| S
+    F --> GW
+    GW -->|admit| inner
+
+    classDef gate fill:#FFF4EA,stroke:#E77A3A,stroke-width:1.5px
+    class GP,GW gate
+    style inner fill:#EDF1FF,stroke:#4760FF
+    style outer fill:#EAF7F0,stroke:#178F5E

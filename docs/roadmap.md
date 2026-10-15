@@ -1,38 +1,23 @@
-# TimeLine
+# Timeline
 
-```mermaid
-gantt
-    title WM-as-env to RL to LIBERO bench, closed loop
-    dateFormat YYYY-MM-DD
-    axisFormat %m/%d
-    todayMarker stroke-width:2px,stroke:#d33,opacity:0.6
+![timeline](../images/timeline.png)
 
-    section Stage-1 RLinf Recipe
-    WorldModelEnv / WorldModelBackend abstraction :done,   s1a, 2026-08-24, 2026-09-01
-    Wire in reward model (TopReward)              :done,   s1c, 2026-09-1, 2026-09-10
-    Stage-1 done                                  :milestone, m1, 2026-09-12, 0d
+> Source `images/timeline.mmd`; regenerate with
+> `npx @mermaid-js/mermaid-cli -i images/timeline.mmd -o images/timeline.png -b white -s 2`.
 
-    section Stage-2 vLLM-Omni Serving
-    RLinf + vLLM-Omni commu protocal              :        s2c, 2026-09-12, 2026-09-17
-    Stateless WM support                          :        s2b, 2026-09-17, 2026-09-30
-    Stateful WM support                           :        s2a, 2026-09-30, 2026-10-25
-    perf optimization and alingment               :        s2d, 2026-10-15, 2026-11-12
-    Stage-2 done                                  :milestone, m2, 2026-11-12, 0d
-    section Stage-3 evolving
-    Agent harness                                 :        s3a, 2026-11-15, 2026-12-24
-```
+## Stage-1 (Aug 24 – Sep 14) — WM-as-env recipe in RLinf · LIBERO — done
 
+* `WorldModelEnv` / `WorldModelBackend`: [#1518](https://github.com/RLinf/RLinf/pull/1518) (merged)
+* [#1554](https://github.com/RLinf/RLinf/pull/1554)
+* Open: the LIBERO success metric does not rise with training steps.
 
+## Stage-2 (Sep 7 – Oct 13) — WM-as-env calibration on RoboTwin · BWM — done
 
-## Stage-1（Aug ~ Oct）— WM-as-env RLInf recipe
+* Stateless remote WM serving: [#1567](https://github.com/RLinf/RLinf/pull/1567) (draft)
+* Failure-data WM fine-tuning, frozen T5 reward, corrected PPO: 5 / 5 seeds above SFT, mean +9.7 pp.
+  Pipeline: [`recipes/robotwin-bwm-ppo`](../recipes/robotwin-bwm-ppo/README.md)
+* Parked: generation speed (rollout is ~97% of a training step), stateful WM.
 
-* [pr-1518](https://github.com/RLinf/RLinf/pull/1518)
-* [pr-1554](https://github.com/RLinf/RLinf/pull/1554)
+## Stage-3 (from Sep 30) — RobotRSI: failure recovery and skill evolution
 
-## Stage-2（Oct ~ Nov）— vLLM-Omni Serving
-
-
-
-## Stage-3(Nov ~ Dec) - Self-Evolving Loop 
-
-
+* Agent harness; first deliverable is a baseline / recovery comparison with a failure taxonomy.

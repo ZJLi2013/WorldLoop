@@ -1,12 +1,26 @@
 # Contributing
 
-WorldLoop is the hub: protocol, docs, and orchestration. Implementation lands in the component repos (RLinf, vLLM-Omni, …). A change that belongs upstream stays upstream; this repo only records the contract and the current conclusion.
+WorldLoop holds the protocol, the docs, and one reproducible recipe per accepted result. Code that belongs
+upstream (RLinf, vLLM-Omni, …) still goes upstream; a recipe pins the upstream commit it ran on and carries
+the rest as patches and scripts.
+
+## Recipes
+
+A recipe under `recipes/<name>/` rebuilds a result on a new machine without anything from the machine that
+produced it:
+
+- Upstream code is a submodule in `third_party/` at the exact commit; local changes are `patches/*.patch`
+  against that commit, checked by tree id after applying.
+- Scripts are kept as they ran. Machine paths are rewritten at setup, not edited by hand.
+- Every model, checkpoint and dataset the run loads has a public source and a sha256 in `assets.sha256`.
+  Small inputs (seed lists, init frames, indices) are committed.
+- The README states what was verified, what was not, and what can no longer be regenerated.
 
 ## Pull requests
 
-- One PR, one falsifiable claim (a protocol change, a done-criterion update, or a recorded conclusion).
+- One PR, one falsifiable claim (a protocol change, a done-criterion update, a recorded conclusion, or a recipe).
 - `main` takes accepted work only. Feature branches are short-lived.
-- PR description states: what is now true, how it was checked, and which repo the code lives in if this PR is docs-only.
+- PR description states: what is now true, how it was checked, and which repo the code lives in.
 
 ## Experiments
 

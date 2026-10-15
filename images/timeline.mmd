@@ -1,0 +1,19 @@
+gantt
+    dateFormat YYYY-MM-DD
+    axisFormat %m/%d
+    todayMarker stroke-width:2px,stroke:#d33,opacity:0.6
+
+    section Stage-1 RLinf · LIBERO
+    ROCm + WM env abstraction                     :done,   s1a, 2026-08-24, 2026-09-03
+    Wan + frozen VLM reward parity                :done,   s1b, 2026-08-28, 2026-09-14
+    Stage-1 done                                  :milestone, m1, 2026-09-14, 0d
+
+    section Stage-2 WM-as-env · RoboTwin BWM
+    Stateless remote WM (#1567)                   :done,   s2a, 2026-09-07, 2026-10-02
+    BWM env + contract fixes                      :done,   s2b, 2026-09-15, 2026-10-03
+    WM fidelity · failure-data fine-tune          :done,   s2c, 2026-10-02, 2026-10-10
+    Stable in-WM PPO gain (w32)                   :done,   s2d, 2026-10-03, 2026-10-13
+    Stage-2 done                                  :milestone, m2, 2026-10-13, 0d
+
+    section Stage-3 RobotRSI
+    Agent harness                                 :        s3a, 2026-11-30, 2026-12-30
