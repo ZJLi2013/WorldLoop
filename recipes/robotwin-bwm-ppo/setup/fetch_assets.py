@@ -2,6 +2,7 @@
 
     python fetch_assets.py <WL_ROOT>          # models and checkpoints (~45 GB)
     python fetch_assets.py <WL_ROOT> --w6     # plus the 677 WM fine-tuning episodes (only to redo WM fine-tuning)
+    HF_TOKEN=... python fetch_assets.py <WL_ROOT> --r2-data   # plus the classifier training data (private)
 """
 import os
 import sys
@@ -44,6 +45,11 @@ if not resnet.exists():
     resnet.parent.mkdir(parents=True, exist_ok=True)
     urllib.request.urlretrieve("https://download.pytorch.org/models/resnet18-f37072fd.pth", resnet)
 print("ok", resnet.relative_to(root))
+
+if "--r2-data" in opts:
+    snapshot_download("lidavidsh/robotwin-adjust-bottle-t5-reward-data", repo_type="dataset",
+                      local_dir=root / "vomni/artifacts/r2-reward-data", allow_patterns=["*.pt", "manifest.json"])
+    print("ok r2-reward-data")
 
 if "--w6" in opts:
     w6 = root / "vomni/artifacts/w6"

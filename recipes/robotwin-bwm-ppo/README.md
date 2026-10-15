@@ -45,7 +45,7 @@ export WL_ROOT=/data/$USER                       # containers mount the first pa
 bash setup/materialize.sh                        # RLinf trees + RoboTwin + BWM + scripts, paths rewritten
 bash $WL_ROOT/worldloop/setup/env.sh             # image, vkdev container, venv to the w32 freeze, side packages
 docker exec vkdev $WL_ROOT/rlinf/venvs/openpi-robotwin/bin/python \
-  $WL_ROOT/worldloop/setup/fetch_assets.py $WL_ROOT [--w6]
+  $WL_ROOT/worldloop/setup/fetch_assets.py $WL_ROOT [--w6] [--r2-data]   # --r2-data needs HF_TOKEN
 docker exec vkdev bash -lc "source $WL_ROOT/rlinf/venvs/openpi-robotwin/bin/activate && \
   bash $WL_ROOT/vomni/robotwin_rocm/setup_assets.sh $WL_ROOT/vomni/RoboTwin"   # 30 GB + mesh decimation
 bash $WL_ROOT/worldloop/setup/verify.sh
@@ -100,6 +100,7 @@ branches the patches come from are `wmforge/wt-g-exact`, `wmforge/wt-w11-exact`,
 | BWM base `step-12000` | HF `BLM-Lab/Boundless-World-Model` @ `738a8d3c` |
 | BWM fine-tuned `step-750` | HF `lidavidsh/bwm-robotwin-adjust-bottle-failure-ft` |
 | T5 classifier | HF `lidavidsh/robotwin-adjust-bottle-t5-success-classifier` (`report.json` there names `google-t5/t5-base`; the node copy had a local path) |
+| T5 classifier training data | HF dataset `lidavidsh/robotwin-adjust-bottle-t5-reward-data` (private; `train/val/test.pt` + `manifest.json`, the `--data` input of `_r2_train.py`) |
 | `t5-base`, ResNet18 | HF `google-t5/t5-base`; `download.pytorch.org` `resnet18-f37072fd.pth` |
 | w6 episodes | HF dataset `lidavidsh/robotwin-adjust-bottle-pi05-rollouts` (`.npz` + `_act.npy`; `_frames.npy` is unpacked by `fetch_assets.py --w6`) |
 | RoboTwin assets | HF dataset `TianxingChen/RoboTwin2.0`, decimated by `simplify_assets.py` |
@@ -110,9 +111,8 @@ branches the patches come from are `wmforge/wt-g-exact`, `wmforge/wt-w11-exact`,
 
 - **The policies behind stages 1 and 2 are deleted.** w6 used the F21 sim-PPO checkpoints (steps 10/20/30) and
   the reward data used three intermediate RL policies (`f22-orig-step5`, `f22-ignore-step5`,
-  `exp16-hires48-step10`). The w6 episodes survive on HF; the classifier's training data
-  (`r2-reward-data`, 1.7 GB) survives only on the original collection node. Re-running stage 1 or 2 gives data of
-  the same kind from new policies, not the same data.
+  `exp16-hires48-step10`). Both datasets survive on HF, so WM fine-tuning and classifier training can be redone
+  on the same data; re-running the collection itself gives data of the same kind from new policies.
 - **The w32 policies and the w28 SFT dumps are lost** with the node that produced them. Stage 4 has to be
   re-measured anyway: SFT labels are node-specific.
 - **`env.sh` rebuilds the venv from a freeze.** Packages that pip resolves differently on another day, and the
