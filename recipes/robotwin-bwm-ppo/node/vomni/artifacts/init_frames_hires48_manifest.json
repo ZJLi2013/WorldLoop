@@ -1,0 +1,13 @@
+{
+  "count": 48,
+  "image_dtype": "uint8",
+  "image_shape": [
+    480,
+    640,
+    3
+  ],
+  "max_pose_diff": 0.0,
+  "task": "adjust_bottle",
+  "unique_images": 48,
+  "unique_instructions": 48
+}

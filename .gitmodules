@@ -1,0 +1,10 @@
+[submodule "third_party/RLinf"]
+	path = third_party/RLinf
+	url = https://github.com/RLinf/RLinf.git
+[submodule "third_party/RoboTwin"]
+	path = third_party/RoboTwin
+	url = https://github.com/RoboTwin-Platform/RoboTwin.git
+	branch = RLinf_support
+[submodule "third_party/boundless-world-model"]
+	path = third_party/boundless-world-model
+	url = https://github.com/boundless-large-model/boundless-world-model.git
