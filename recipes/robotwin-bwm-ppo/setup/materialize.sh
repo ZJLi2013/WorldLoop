@@ -29,7 +29,7 @@ TREES="wt-g wt-w11 wt-r2"
 for sm in RLinf RoboTwin boundless-world-model; do
   [ -e "$TP/$sm/.git" ] || { echo "missing submodule $sm: git submodule update --init"; exit 1; }
 done
-mkdir -p "$WL_ROOT/rlinf" "$WL_ROOT/vomni"
+mkdir -p "$WL_ROOT/rlinf/results" "$WL_ROOT/vomni"
 
 rewrite() {
   grep -rlI --exclude-dir=.git --exclude=.git --exclude-dir=assets -e /data/zhengjli -e '/data:/data' "$@" 2>/dev/null \

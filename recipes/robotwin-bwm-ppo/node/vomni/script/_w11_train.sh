@@ -58,6 +58,8 @@ docker run --rm --name "$NAME" \
   -e HF_HUB_OFFLINE=1 -e HYDRA_FULL_ERROR=1 -e PYTORCH_HIP_ALLOC_CONF=expandable_segments:True \
   -e RLINF_BWM_REWARD_DUMP="${RLINF_BWM_REWARD_DUMP:-}" -e RLINF_SEED_EVERYTHING="$SEED" \
   -e RLINF_CRITIC_FEAT_DUMP="${RLINF_CRITIC_FEAT_DUMP:-}" -e RLINF_ADV_DUMP="${RLINF_ADV_DUMP:-}" \
+  -e RLINF_W18_DUMP="${RLINF_W18_DUMP:-}" \
+  -e RLINF_WM_TRACE="${RLINF_WM_TRACE:-}" -e RLINF_WM_DUMP="${RLINF_WM_DUMP:-}" \
   --entrypoint bash "$IMG" -lc "
 source $VENV/bin/activate
 export REPO_PATH=$REPO EMBODIED_PATH=$REPO/examples/embodiment ROBOTWIN_PATH=$ROBOTWIN_PATH
